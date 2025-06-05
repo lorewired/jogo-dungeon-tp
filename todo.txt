@@ -1,0 +1,1 @@
+- Um problema que vou ter por conta do *generics* vai ser na hora de pegar o item na mochila, por isso vou implementar uma função "pegarItem", que irá converter o item no ponteiro de seu respectivo tipo.

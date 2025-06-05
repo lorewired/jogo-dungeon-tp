@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "utils.h": "c",
+    "tests.h": "c",
+    "pocao_de_cura.h": "c",
+    "bau.h": "c"
+  }
+}
