@@ -5,8 +5,8 @@
 Game* novoGame(char* nome_heroi)
 {
   Game* game = (Game *) malloc(sizeof(Game));
-  game->mapa = novoMapa(20, 20);
   game->heroi = novoHeroi(nome_heroi);
+  game->mapa = NULL;
   game->end = 0;
   return game;
 }

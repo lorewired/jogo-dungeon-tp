@@ -3,6 +3,8 @@
 
 #include "utils.h"
 
+/* STRUCTS */
+
 typedef enum
 {
   AGUA,
@@ -24,5 +26,13 @@ typedef struct
   char* nome;
   Elemento elemento;
 } ArmaMagica;
+
+/* END STRUCTS */
+
+/* FUNCTIONS */
+
+ArmaMagica* novaArmaMagica(Elemento elemento, char* nome);
+
+/* END FUNCTIONS */
 
 #endif

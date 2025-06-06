@@ -5,7 +5,7 @@
 Bau*
 novoBau(TipoItem tipo_item, void* item)
 {
-  Bau* bau = (Bau *) malloc(sizeof(Bau *));
+  Bau* bau = (Bau *) malloc(sizeof(Bau));
   bau->tipo_item = tipo_item;
   
   switch (tipo_item)

@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "game.h"
+#include "mapa.h"
 
 void clear_tm();
 

@@ -6,6 +6,8 @@
     "pocao_de_cura.h": "c",
     "bau.h": "c",
     "mapa.h": "c",
-    "menu.h": "c"
+    "menu.h": "c",
+    "game.h": "c",
+    "heroi.h": "c"
   }
 }

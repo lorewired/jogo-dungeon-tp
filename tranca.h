@@ -14,3 +14,9 @@ typedef struct
 #endif
 
 /* END STRUCTS */
+
+/* FUNCTIONS */
+
+Tranca* novaTranca(Elemento fraqueza, char* nome);
+
+/* END FUNCTIONS */

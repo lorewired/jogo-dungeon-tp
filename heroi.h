@@ -6,10 +6,12 @@
 
 typedef struct
 {
-  char* nome;
   ArmaMagica* armas[4];
   PocaoDeCura* pocoes[100];
-  int hp, pocao_atual;
+  int pocao_atual;
+  int hp;
+  int x, y;
+  char* nome;
 } Heroi;
 
 Heroi* novoHeroi(char* nome);
