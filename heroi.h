@@ -12,4 +12,6 @@ typedef struct
   int hp, pocao_atual;
 } Heroi;
 
+Heroi* novoHeroi(char* nome);
+
 #endif

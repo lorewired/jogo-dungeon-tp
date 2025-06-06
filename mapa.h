@@ -35,7 +35,7 @@ typedef struct
 
 /* FUNCTIONS */
 
-Mapa
+Mapa*
 novoMapa(int max_x, int max_y);
 
 Celula*

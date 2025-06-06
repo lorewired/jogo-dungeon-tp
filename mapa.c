@@ -5,13 +5,13 @@
 Mapa*
 novoMapa(int max_x, int max_y)
 {
-  Mapa mapa;
-  mapa.matriz = (Celula ***) malloc(sizeof(Celula **) * max_x);
+  Mapa* mapa = (Mapa *) malloc(sizeof(Mapa));
+  mapa->matriz = (Celula ***) malloc(sizeof(Celula **) * max_x);
 
   for (size_t i = 0; i < max_y; i++)
-    mapa.matriz[i] = (Celula **) malloc(sizeof(Celula *) * max_y);
+    mapa->matriz[i] = (Celula **) malloc(sizeof(Celula *) * max_y);
   
-  return &mapa;
+  return mapa;
 }
 
 Celula*

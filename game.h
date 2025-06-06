@@ -1,21 +1,24 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "menu.h"
 #include "mapa.h"
+#include "heroi.h"
+
+/* STRUCTS */
 
 typedef struct
 {
-  Menu menu;
   Mapa* mapa;
+  Heroi* heroi;
+  int end;
 } Game;
 
-Game
-newGame()
-{
-  Game game;
-  game.menu = novoMenu();
-  game.mapa = novoMapa();
-}
+/* END STRUCTS */
+
+/* FUNCTIONS */
+
+Game* novoGame(char* nome_heroi);
+
+/* END FUNCTIONS */
 
 #endif

@@ -2,21 +2,14 @@
 #define MENU_H
 
 #include "utils.h"
+#include "game.h"
 
-typedef struct
-{
-  void
-  clear_tm()
-  {
-    system("cls");
-  }
+void clear_tm();
 
-  void
-  boasVindas()
-  {
-    clear_tm();
-    
-  }
-} Menu;
+void iniciarJogo();
+
+Game* boasVindas();
+
+void load_splash_art();
 
 #endif

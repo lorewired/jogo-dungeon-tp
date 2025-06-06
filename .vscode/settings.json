@@ -1,8 +1,11 @@
 {
   "files.associations": {
+    "*.asm": "asm-intel-x86-generic",
     "utils.h": "c",
     "tests.h": "c",
     "pocao_de_cura.h": "c",
-    "bau.h": "c"
+    "bau.h": "c",
+    "mapa.h": "c",
+    "menu.h": "c"
   }
 }
