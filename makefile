@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 
 # Lista de arquivos .c
-SRC = main.c mapa.c game.c bau.c tranca.c heroi.c utils.c menu.c pocao_de_cura.c bomba.c arma_magica.c tests.c
+SRC = main.c arma_magica.c bau.c bomba.c game.c heroi.c mapa.c menu.c pocao_de_cura.c tests.c utils.c tranca.c
 
 # Gera os .o correspondentes
 OBJ = $(SRC:.c=.o)

@@ -8,6 +8,7 @@
 typedef struct
 {
   char* nome;
+  int quebrada;
   Elemento fraqueza;
 } Tranca;
 

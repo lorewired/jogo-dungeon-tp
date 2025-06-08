@@ -22,7 +22,7 @@ typedef struct
 {
   void* data;
   int solido;
-  char carac;
+  char rep;
   TipoCelula tipo;
 } Celula;
 
@@ -43,7 +43,7 @@ Mapa*
 novoMapa(int max_x, int max_y);
 
 Celula*
-novaCelula(TipoCelula tipo, void* data);
+novaCelula(TipoCelula tipo, void* data, char rep);
 
 void
 ler_mapa(Mapa* mapa, char* arquivo, int N, int M);

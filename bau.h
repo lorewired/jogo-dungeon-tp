@@ -18,6 +18,7 @@ typedef struct
 {
   TipoItem tipo_item;
   void* item;
+  int aberto;
 } Bau;
 
 /* END STRUCTS */

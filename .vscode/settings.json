@@ -8,6 +8,9 @@
     "mapa.h": "c",
     "menu.h": "c",
     "game.h": "c",
-    "heroi.h": "c"
-  }
+    "heroi.h": "c",
+    "input.h": "c",
+    "tranca.h": "c"
+  },
+  "vscord.enabled": true
 }

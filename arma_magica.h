@@ -13,14 +13,6 @@ typedef enum
   AR
 } Elemento;
 
-typedef enum
-{
-  SEL_AGUA = 0,
-  SEL_TERRA = 1,
-  SEL_FOGO = 2,
-  SEL_AR = 3
-} Elementos;
-
 typedef struct
 {
   char* nome;

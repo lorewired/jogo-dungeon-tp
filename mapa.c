@@ -8,30 +8,30 @@ novoMapa(int max_x, int max_y)
   Mapa* mapa = (Mapa *) malloc(sizeof(Mapa));
   mapa->matriz = (Celula ***) malloc(sizeof(Celula **) * max_x);
 
-  for (int i = 0; i < max_y; i++)
+  for (int i = 0; i < max_x; i++)
     mapa->matriz[i] = (Celula **) malloc(sizeof(Celula *) * max_y);
 
-  mapa->baus = (Bau **) malloc(sizeof(Bau *));
+    mapa->max_x = max_x;
+    mapa->max_y = max_y;
+
+    mapa->baus = NULL;
+    mapa->qntd_baus = 0;
 
   return mapa;
 }
 
 Celula*
-novaCelula(TipoCelula tipo, void* data)
+novaCelula(TipoCelula tipo, void* data, char rep)
 {
   Celula* cel = (Celula *) malloc(sizeof(Celula));
   cel->tipo = tipo;
+  cel->rep = rep;
   cel->solido =
-    tipo == BAU ||
-    tipo == TESOURO ||
-    tipo == TRANCA_MAGICA_QUEBRADA;
-    
-  switch (tipo)
-  {
-    case BAU: cel->data = (Bau *) data; break;
-    case TRANCA_MAGICA: cel->data = (Tranca *) data; break;
-    default: cel->data = NULL;
-  }
+    tipo == PAREDE ||
+    tipo == ROCHA ||
+    tipo == TRANCA_MAGICA;
+
+  cel->data = data;
 
   return cel;
 }
@@ -40,82 +40,70 @@ void
 ler_mapa(Mapa* mapa, char* arquivo, int max_x, int max_y)
 {
   FILE* f = fopen(arquivo, "r");
+  
+  int i = 0, j = 0;
+  char c;
+  
+  while (fread(&c, 1, 1, f))
+  {
+    if (c == '\n' || c == '\r') continue;
 
-  for (int i = 0; i < max_x; i++) {
-    for (int j = 0; j < max_y;) {
-      char c;
-      if (fscanf(f, "%c", &c) != 1) break;
+    Celula* cel;
 
-      if (c == '\n' || c == '\r') continue;
-      
-      Celula* cel = (Celula *) malloc(sizeof(Celula));
-      cel->carac = c;
-
-      switch (cel->carac)
-      {
-        case 'W':
-          cel->tipo = TRANCA_MAGICA;
-          cel->data = novaTranca(AGUA, "Tranca Magica de Agua");
-          cel->solido = 1;
-          break;
-        case 'E':
-          cel->tipo = TRANCA_MAGICA;
-          cel->data = novaTranca(TERRA, "Tranca Magica de Terra");
-          cel->solido = 1;
-          break;
-        case 'F':
-          cel->tipo = TRANCA_MAGICA;
-          cel->data = novaTranca(FOGO, "Tranca Magica de Fogo");
-          cel->solido = 1;
-          break;
-        case 'A':
-          cel->tipo = TRANCA_MAGICA;
-          cel->data = novaTranca(AR, "Tranca Magica de Ar");
-          cel->solido = 1;
-          break;
-        case 'B':
-          cel->tipo = BAU;
-          cel->solido = 0;
-
-          int tipo = random_in_range(0, 1);
-
-          if (tipo)
-            cel->data = novoBau(BAU_POCAO_DE_VIDA, novaPocao());
-          else
-            cel->data = novoBau(BAU_BOMBA, novaBomba());
-
-          int next_idx = mapa->qntd_baus++;
-          mapa->baus = realloc(mapa->baus, sizeof(Bau *) * mapa->qntd_baus);
-          mapa->baus[next_idx] = (Bau *) cel->data;
-          
-          break;
-        case '@':
-          cel->tipo = TESOURO;
-          cel->data = NULL;
-          cel->solido = 1;
-          break;
-        case 'R':
-          cel->tipo = ROCHA;
-          cel->data = NULL;
-          cel->solido = 1;
-          break;
-        case '*':
-          cel->tipo = PAREDE;
-          cel->data = NULL;
-          cel->solido = 1;
-          break;
-        case '#':
-          mapa->heroi_x_inicial = i;
-          mapa->heroi_y_inicial = j;
-        default:
-          cel->tipo = NADA;
-          cel->data = NULL;
-          cel->solido = 0;
-      }
-
-      mapa->matriz[i][j] = cel;
-      j++;
+    switch (c)
+    {
+      case 'W':
+        cel = novaCelula(TRANCA_MAGICA, novaTranca(AGUA, "Tranca Magica de Agua"), 'W');
+        break;
+      case 'E':
+        cel = novaCelula(TRANCA_MAGICA, novaTranca(TERRA, "Tranca Magica de Terra"), 'E');
+        break;
+      case 'F':
+        cel = novaCelula(TRANCA_MAGICA, novaTranca(FOGO, "Tranca Magica de Fogo"), 'F');
+        break;
+      case 'A':
+        cel = novaCelula(TRANCA_MAGICA, novaTranca(AR, "Tranca Magica de Ar"), 'A');
+        break;
+      case 'B':
+        int tipo = random_in_range(0, 1);
+  
+        if (tipo)
+          cel = novaCelula(BAU, novoBau(BAU_POCAO_DE_VIDA, novaPocao()), 'B');
+        else
+          cel = novaCelula(BAU, novoBau(BAU_BOMBA, novaBomba()), 'B');
+  
+        mapa->baus = realloc(mapa->baus, sizeof(Bau *) * (mapa->qntd_baus + 1));
+        mapa->baus[mapa->qntd_baus] = (Bau *) cel->data;
+        mapa->qntd_baus++;
+        
+        break;
+      case '@':
+        cel = novaCelula(TESOURO, NULL, '@');
+        break;
+      case 'R':
+        cel = novaCelula(ROCHA, NULL, 'R');
+        break;
+      case '*':
+        cel = novaCelula(PAREDE, NULL, '*');
+        break;
+      case '#':
+        mapa->heroi_x_inicial = i;
+        mapa->heroi_y_inicial = j;
+      default:
+        cel = novaCelula(NADA, NULL, ' ');
+        break;
     }
+  
+    mapa->matriz[i][j] = cel;
+
+    j++;
+    if (j == max_y)
+    {
+      i++;
+      j = 0;
+    }
+
+    if (i == max_x) break;
   }
 
   fclose(f);

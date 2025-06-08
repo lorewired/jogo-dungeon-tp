@@ -13,4 +13,10 @@ Game* boasVindas();
 
 void load_splash_art();
 
+void ler_comando(Game* game);
+
+void comando_invalido();
+
+void exibir_mapa(Game* game);
+
 #endif

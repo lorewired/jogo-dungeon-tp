@@ -1,5 +1,4 @@
 #include "menu.h"
-#include "tests.h"
 
 void
 clear_tm()
@@ -36,8 +35,12 @@ boasVindas()
   Game* game = novoGame(nome);
 
   printf("Mapas disponiveis: [1] Mapa A , [2] Mapa B\nSelecionar: ");
+
+  char linha[10];
+  fgets(linha, sizeof(linha), stdin); // problema com buffer, pedi ajuda pro grok pq n estava conseguindo resolver :(
+
   int escolha_mapa;
-  scanf("%d", &escolha_mapa);
+  sscanf(linha, "%d", &escolha_mapa); 
   
   if (escolha_mapa == 1)
   {
@@ -59,12 +62,109 @@ boasVindas()
 }
 
 void
+ler_comando(Game* game)
+{
+  printf("Comando: ");
+
+  char linha[10];
+  fgets(linha, 10, stdin);
+  char inp = linha[0];
+
+  if (isdigit(inp))
+  {
+    // beber pocao
+    return;
+  }
+
+  switch (inp)
+  {
+    case 'W':
+      mover_heroi(game, game->heroi->x - 1, game->heroi->y);
+      break;
+    case 'A':
+      mover_heroi(game, game->heroi->x, game->heroi->y - 1);
+      break;
+    case 'S':
+      mover_heroi(game, game->heroi->x + 1, game->heroi->y);
+      break;
+    case 'D':
+      mover_heroi(game, game->heroi->x, game->heroi->y + 1);
+      break;
+    case 'O':
+      abrir_bau(game);
+      break;  
+    case 'P':
+      atacar(game);
+      break;
+    case 'L':
+      trocar_de_arma(game->heroi);
+  }
+}
+
+void
+comando_invalido()
+{
+  printf("\nComando Invalido.");
+  sleep(1);
+}
+
+void
+exibir_bolsa_de_armas(Heroi* heroi)
+{
+  if (!heroi->total_armas) {
+    printf("Vazia\n");
+    return;
+  }
+
+  for (int i = 0; i < 4; i++)
+  {
+    if (heroi->armas[i] != NULL)
+    {
+      ArmaMagica* arma = (ArmaMagica *) heroi->armas[i];
+      printf("%s", arma->nome);
+      if (i + 1 < 4 && heroi->armas[i + 1] != NULL)
+        printf(" | ");
+    }
+  }
+
+  printf("\n");
+}
+
+void
+exibir_mapa(Game* game)
+{
+  for (int i = 0; i < game->mapa->max_x; i++)
+  {
+    for (int j = 0; j < game->mapa->max_y; j++) {
+      if (i == game->heroi->x && j == game->heroi->y)
+        printf("#");
+      else
+        printf("%c", game->mapa->matriz[i][j]->rep);
+    }
+    printf("\n");
+  }
+}
+
+void
+exibir_interface(Game* game)
+{
+  printf("\n");
+  printf("HP: %d\n", game->heroi->hp);
+  printf("Bolsa de Armas: ");
+  exibir_bolsa_de_armas(game->heroi);
+  printf("Pocoes de Cura: %d\n", game->heroi->total_pocoes);
+}
+
+void
 iniciarJogo()
 {
   Game* game = boasVindas();
 
   while (!game->end || game->heroi->hp > 0)
   {
-    testarCelulas(game);
+    clear_tm();
+    exibir_mapa(game);
+    exibir_interface(game);
+    ler_comando(game);
   }
 }
